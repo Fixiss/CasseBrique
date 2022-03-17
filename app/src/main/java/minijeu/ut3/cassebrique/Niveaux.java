@@ -13,11 +13,9 @@ import android.hardware.SensorManager;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.Pair;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import java.util.Random;
+import java.util.ArrayList;
 
 public class Niveaux extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback{
     private SensorManager sensorManager;
@@ -28,6 +26,7 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
     private ThreadJeu jeu;
     private DisplayMetrics display;
     private Handler mHandler;
+    private ArrayList<Brique> briques;
     private final Runnable deplacementBalle = new Runnable() {
         public void run() {
             if(position_balle_y+20 >= display.heightPixels - 180 && position_balle_x+20 >= position_barre-70 && position_balle_x-20 <= position_barre+70){
@@ -78,11 +77,18 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
                 position_balle_x-=3;
                 position_balle_y-=3;
             }
+            for (Brique b:briques) {
+                if(position_balle_y <= b.getY()+70 && position_balle_y>= b.getY()-70 && position_balle_x <= b.getX()+70 && position_balle_x>= b.getX()-70){
+                    briques.remove(b);
+                    break;
+                }
+            }
+
             mHandler.post(deplacementBalle);
         }
     };
 
-    public Niveaux(Context context) {
+    public Niveaux(Context context, int lvl) {
         super(context);
         getHolder().addCallback(this);
         jeu = new ThreadJeu(getHolder(), this);
@@ -96,8 +102,18 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
                 this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_GAME);
+        choixBriques(lvl);
         mHandler = new Handler();
         mHandler.post(deplacementBalle);
+    }
+
+    private void choixBriques(int lvl) {
+        briques = new ArrayList<>();
+        if(lvl == 1){
+            briques.add(new Brique(600, 100));
+            briques.add(new Brique(100, 100));
+            briques.add(new Brique(400, 100));
+        }
     }
 
     @Override
@@ -128,18 +144,27 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
             canvas.drawColor(Color.WHITE);
             drawBalle(canvas);
             drawBarre(canvas);
+            drawBriques(canvas);
         }
     }
     public void drawBarre(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(Color.rgb(250, 0, 0));
+        paint.setColor(Color.rgb(0, 0, 250));
         canvas.drawRect(position_barre - 70, display.heightPixels - 180, position_barre + 70, display.heightPixels - 150, paint);
     }
 
     public void drawBalle(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(Color.rgb(250, 0, 0));
+        paint.setColor(Color.rgb(0, 250, 0));
         canvas.drawRect(position_balle_x-20, position_balle_y-20, position_balle_x+20, position_balle_y+20, paint);
+    }
+
+    public void drawBriques(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setColor(Color.rgb(250, 0, 0));
+        for(Brique b:briques) {
+            canvas.drawRect(b.getX()-50, b.getY()-50,b.getX()+50,b.getY()+50,paint);
+        }
     }
 
     @Override

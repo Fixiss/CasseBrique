@@ -14,7 +14,7 @@ public class NiveauxActivity extends AppCompatActivity {
     }
 
     public void OnClickNiv1(View v){
-        setContentView(new Niveaux(this));
+        setContentView(new Niveaux(this,1));
     }
 
     public void OnClickNiv2(View v){
