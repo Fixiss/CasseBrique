@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 
-public class ThreadBarre extends Thread{
+public class ThreadJeu extends Thread{
     private SurfaceHolder surfaceHolder;
     private Niveaux niveau;
     private Canvas canvas;
@@ -12,7 +12,7 @@ public class ThreadBarre extends Thread{
     private Handler mHandler;
 
 
-    public ThreadBarre(SurfaceHolder surfaceHolder, Niveaux niveau) {
+    public ThreadJeu(SurfaceHolder surfaceHolder, Niveaux niveau) {
         super();
         this.surfaceHolder = surfaceHolder;
         this.niveau = niveau;
@@ -30,7 +30,7 @@ public class ThreadBarre extends Thread{
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized(surfaceHolder) {
-                    this.niveau.drawBarre(canvas);
+                    this.niveau.drawElements(canvas);
                 }
             } catch (Exception e) {}
             finally {
