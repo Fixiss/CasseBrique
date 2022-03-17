@@ -31,8 +31,7 @@ public class LuminositeActivity extends AppCompatActivity {
         }
     }
 
-    private final SensorEventListener lightSensorListener
-            = new SensorEventListener(){
+    private final SensorEventListener lightSensorListener  = new SensorEventListener(){
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -43,6 +42,7 @@ public class LuminositeActivity extends AppCompatActivity {
         public void onSensorChanged(SensorEvent event) {
             if(event.sensor.getType() == Sensor.TYPE_LIGHT){
                 textLIGHT_reading.setText("LIGHT: " + event.values[0]);
+
             }
         }
     };
