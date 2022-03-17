@@ -33,6 +33,12 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
     private ArrayList<Brique> briques;
     private final Runnable deplacementBalle = new Runnable() {
         public void run() {
+            if(position_balle_y>= display.heightPixels - 150){
+                loose();
+            }
+            if(briques.isEmpty()){
+                win();
+            }
             if(position_balle_y+20 >= display.heightPixels - 180 && position_balle_x+20 >= position_barre-70 && position_balle_x-20 <= position_barre+70){
                 if(direction_balle == "BasDroite"){
                     direction_balle = "HautDroite";
@@ -111,6 +117,13 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
         choixBriques(lvl);
         mHandler = new Handler();
         mHandler.post(deplacementBalle);
+    }
+
+    private void win (){
+
+    }
+    private void loose(){
+
     }
 
     private void choixBriques(int lvl) {
@@ -192,7 +205,6 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
             try {
                 jeu.setRunning(false);
                 jeu.join();
-                this.destroyDrawingCache();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
