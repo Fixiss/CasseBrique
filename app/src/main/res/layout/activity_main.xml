@@ -38,6 +38,15 @@
             android:insetBottom="20dp"
             android:onClick="OnClickClassementButton"
             android:text="Classement" />
+
+        <Button
+            android:id="@+id/button_luminosite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:insetTop="20dp"
+            android:insetBottom="20dp"
+            android:onClick="OnClickLuminositeButton"
+            android:text="Luminosité" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
