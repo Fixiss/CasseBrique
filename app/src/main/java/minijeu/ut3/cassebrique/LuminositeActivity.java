@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LuminositeActivity extends AppCompatActivity {
 
-    View v;
     TextView textLIGHT_available, textLIGHT_reading;
 
     @Override
@@ -44,7 +43,7 @@ public class LuminositeActivity extends AppCompatActivity {
         public void onSensorChanged(SensorEvent event) {
             if(event.sensor.getType() == Sensor.TYPE_LIGHT){
                 textLIGHT_reading.setText("LIGHT: " + event.values[0]);
-                v.setBackgroundColor(Color.);
+
             }
         }
     };
