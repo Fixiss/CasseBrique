@@ -20,20 +20,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.musique);
-
         mediaPlayer.start();
     }
 
     public void OnClickJouerButton(View v) {
+        mediaPlayer.pause();
         Intent intent = new Intent(this, NiveauxActivity.class);
         startActivity(intent);
     }
     public void OnClickClassementButton(View v) {
+        mediaPlayer.pause();
         Intent intent = new Intent(this, ClassementActivity.class);
         startActivity(intent);
     }
 
     public void OnClickLuminositeButton(View v) {
+        mediaPlayer.pause();
         Intent intent = new Intent(this, LuminositeActivity.class);
         startActivity(intent);
     }

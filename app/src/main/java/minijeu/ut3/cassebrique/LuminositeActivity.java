@@ -31,8 +31,7 @@ public class LuminositeActivity extends AppCompatActivity {
         }
     }
 
-    private final SensorEventListener lightSensorListener
-            = new SensorEventListener(){
+    private final SensorEventListener lightSensorListener  = new SensorEventListener(){
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
