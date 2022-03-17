@@ -1,18 +1,11 @@
 package minijeu.ut3.cassebrique;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NiveauxActivity extends AppCompatActivity {
     @Override
@@ -21,12 +14,20 @@ public class NiveauxActivity extends AppCompatActivity {
         setContentView(R.layout.activity_niveaux);
     }
 
+    public void finNiveau(String winLoose, int score){
+        setContentView(R.layout.activity_niveaux);
+        TextView wL = findViewById(R.id.winLoose);
+        wL.setText(winLoose);
+        TextView scoreT = findViewById(R.id.score);
+        scoreT.setText("score : "+score);
+    }
+
     public void OnClickNiv1(View v){
-        setContentView(new Niveaux(this,1));
+        setContentView(new Niveaux(this,1, this));
     }
 
     public void OnClickNiv2(View v){
-        setContentView(new Niveaux(this,2));
+        setContentView(new Niveaux(this,2, this));
     }
 
     public void OnClickNiv3(View v){
