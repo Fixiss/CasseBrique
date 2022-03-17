@@ -26,84 +26,99 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
     private int position_barre;
     private int position_balle_x;
     private int position_balle_y;
+    private int temps = 100;
+    private NiveauxActivity niv;
+    private boolean running = true;
     private String direction_balle = "BasDroite";
     private ThreadJeu jeu;
     private DisplayMetrics display;
     private Handler mHandler;
+    private Handler mHandlerTimer;
     private ArrayList<Brique> briques;
+    private final Runnable timer = new Runnable() {
+        public void run() {
+            temps--;
+            if(running){
+                mHandlerTimer.postDelayed(this, 1000);
+            }
+        }
+    };
     private final Runnable deplacementBalle = new Runnable() {
         public void run() {
-            if(position_balle_y>= display.heightPixels - 150){
+            if (position_balle_y >= display.heightPixels - 150) {
                 loose();
             }
-            if(briques.isEmpty()){
+            if (briques.isEmpty()) {
                 win();
             }
-            if(position_balle_y+20 >= display.heightPixels - 180 && position_balle_x+20 >= position_barre-70 && position_balle_x-20 <= position_barre+70){
-                if(direction_balle == "BasDroite"){
+            if (position_balle_y + 20 >= display.heightPixels - 180 && position_balle_x + 20 >= position_barre - 70 && position_balle_x - 20 <= position_barre + 70) {
+                if (direction_balle == "BasDroite") {
                     direction_balle = "HautDroite";
                 }
-                if(direction_balle == "BasGauche"){
+                if (direction_balle == "BasGauche") {
                     direction_balle = "HautGauche";
                 }
             }
-            if(position_balle_x+20 >= display.widthPixels){
-                if(direction_balle == "BasDroite"){
+            if (position_balle_x + 20 >= display.widthPixels) {
+                if (direction_balle == "BasDroite") {
                     direction_balle = "BasGauche";
                 }
-                if(direction_balle == "HautDroite"){
+                if (direction_balle == "HautDroite") {
                     direction_balle = "HautGauche";
                 }
             }
-            if(position_balle_x-20 <= 0){
-                if(direction_balle == "BasGauche"){
+            if (position_balle_x - 20 <= 0) {
+                if (direction_balle == "BasGauche") {
                     direction_balle = "BasDroite";
                 }
-                if(direction_balle == "HautGauche"){
+                if (direction_balle == "HautGauche") {
                     direction_balle = "HautDroite";
                 }
             }
-            if(position_balle_y-20 <= 0){
-                if(direction_balle == "HautGauche"){
+            if (position_balle_y - 20 <= 0) {
+                if (direction_balle == "HautGauche") {
                     direction_balle = "BasGauche";
                 }
-                if(direction_balle == "HautDroite"){
+                if (direction_balle == "HautDroite") {
                     direction_balle = "BasDroite";
                 }
             }
-            if(direction_balle == "BasDroite"){
-                position_balle_x+=5;
-                position_balle_y+=5;
+            if (direction_balle == "BasDroite") {
+                position_balle_x += 5;
+                position_balle_y += 5;
             }
-            if(direction_balle == "BasGauche") {
-                position_balle_x-=5;
-                position_balle_y+=5;
+            if (direction_balle == "BasGauche") {
+                position_balle_x -= 5;
+                position_balle_y += 5;
             }
-            if(direction_balle == "HautDroite") {
-                position_balle_x+=5;
-                position_balle_y-=5;
+            if (direction_balle == "HautDroite") {
+                position_balle_x += 5;
+                position_balle_y -= 5;
             }
-            if(direction_balle == "HautGauche") {
-                position_balle_x-=5;
-                position_balle_y-=5;
+            if (direction_balle == "HautGauche") {
+                position_balle_x -= 5;
+                position_balle_y -= 5;
             }
-            for (Brique b:briques) {
-                if(position_balle_y <= b.getY()+70 && position_balle_y>= b.getY()-70 && position_balle_x <= b.getX()+70 && position_balle_x>= b.getX()-70){
-                    if(b.getVie()==0){
+            for (Brique b : briques) {
+                if (position_balle_y <= b.getY() + 70 && position_balle_y >= b.getY() - 70 && position_balle_x <= b.getX() + 70 && position_balle_x >= b.getX() - 70) {
+                    if (b.getVie() == 0) {
                         briques.remove(b);
                     }
                     break;
                 }
             }
-            mHandler.post(deplacementBalle);
+            if (running == true){
+                mHandler.post(deplacementBalle);
+            }
         }
     };
 
-    public Niveaux(Context context, int lvl) {
+    public Niveaux(Context context, int lvl, NiveauxActivity niv ) {
         super(context);
         getHolder().addCallback(this);
         jeu = new ThreadJeu(getHolder(), this);
         setFocusable(true);
+        this.niv = niv;
         display = getContext().getResources().getDisplayMetrics();
         position_barre = display.widthPixels/2;
         position_balle_x = display.widthPixels/2;
@@ -116,14 +131,20 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
                 SensorManager.SENSOR_DELAY_GAME);
         choixBriques(lvl);
         mHandler = new Handler();
+        mHandlerTimer = new Handler();
         mHandler.post(deplacementBalle);
+        mHandlerTimer.postDelayed(timer,1000);
     }
 
     private void win (){
-
+        running = false;
+        jeu.setRunning(false);
+        niv.finNiveau("Victoire", temps);
     }
     private void loose(){
-
+        running = false;
+        jeu.setRunning(false);
+        niv.finNiveau("Défaite", 0);
     }
 
     private void choixBriques(int lvl) {

@@ -56,6 +56,20 @@
                 android:layout_weight="1"
                 android:onClick="OnClickNiv3"
                 android:text="Niv3" />
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/winLoose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
