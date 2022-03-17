@@ -13,6 +13,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -65,20 +66,20 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
                 }
             }
             if(direction_balle == "BasDroite"){
-                position_balle_x+=3;
-                position_balle_y+=3;
+                position_balle_x+=5;
+                position_balle_y+=5;
             }
             if(direction_balle == "BasGauche") {
-                position_balle_x-=3;
-                position_balle_y+=3;
+                position_balle_x-=5;
+                position_balle_y+=5;
             }
             if(direction_balle == "HautDroite") {
-                position_balle_x+=3;
-                position_balle_y-=3;
+                position_balle_x+=5;
+                position_balle_y-=5;
             }
             if(direction_balle == "HautGauche") {
-                position_balle_x-=3;
-                position_balle_y-=3;
+                position_balle_x-=5;
+                position_balle_y-=5;
             }
             for (Brique b:briques) {
                 if(position_balle_y <= b.getY()+70 && position_balle_y>= b.getY()-70 && position_balle_x <= b.getX()+70 && position_balle_x>= b.getX()-70){
@@ -88,7 +89,6 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
                     break;
                 }
             }
-
             mHandler.post(deplacementBalle);
         }
     };
@@ -192,6 +192,7 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
             try {
                 jeu.setRunning(false);
                 jeu.join();
+                this.destroyDrawingCache();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
