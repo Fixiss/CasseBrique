@@ -12,12 +12,15 @@
         android:theme="@style/Theme.CasseBrique">
         <activity
             android:name=".ClassementActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".NiveauxActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

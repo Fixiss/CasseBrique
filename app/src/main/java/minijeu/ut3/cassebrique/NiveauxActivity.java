@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NiveauxActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,7 +14,7 @@ public class NiveauxActivity extends AppCompatActivity {
     }
 
     public void OnClickNiv1(View v){
-
+        setContentView(new Niveaux(this));
     }
 
     public void OnClickNiv2(View v){
