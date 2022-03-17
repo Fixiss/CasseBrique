@@ -9,6 +9,11 @@
         <entry key="..\:/Users/33782/AndroidStudioProjects/CasseBrique/app/src/main/res/layout/activity_classement.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/33782/AndroidStudioProjects/CasseBrique/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/Users/33782/AndroidStudioProjects/CasseBrique/app/src/main/res/layout/activity_niveaux.xml" value="0.36666666666666664" />
+        <entry key="app/src/main/res/layout/activity_classement.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_listview.xml" value="0.7598684210526315" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.20260416666666667" />
+        <entry key="app/src/main/res/layout/activity_niveaux.xml" value="0.20260416666666667" />
+        <entry key="app/src/main/res/layout/list_row.xml" value="0.20260416666666667" />
       </map>
     </option>
   </component>
