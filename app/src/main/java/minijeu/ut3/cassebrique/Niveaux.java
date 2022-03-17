@@ -3,6 +3,7 @@ package minijeu.ut3.cassebrique;
 import static android.content.Context.SENSOR_SERVICE;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,12 +13,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+
 import java.util.ArrayList;
 
-public class Niveaux extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback{
+public class Niveaux extends SurfaceView implements SensorEventListener, SurfaceHolder.Callback, View.OnTouchListener{
     private SensorManager sensorManager;
     private int position_barre;
     private int position_balle_x;
@@ -79,7 +82,9 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
             }
             for (Brique b:briques) {
                 if(position_balle_y <= b.getY()+70 && position_balle_y>= b.getY()-70 && position_balle_x <= b.getX()+70 && position_balle_x>= b.getX()-70){
-                    briques.remove(b);
+                    if(b.getVie()==0){
+                        briques.remove(b);
+                    }
                     break;
                 }
             }
@@ -97,6 +102,7 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
         position_barre = display.widthPixels/2;
         position_balle_x = display.widthPixels/2;
         position_balle_y = display.heightPixels/2;
+        setOnTouchListener(this);
         sensorManager =  (SensorManager) this.getContext().getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(
                 this,
@@ -113,6 +119,13 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
             briques.add(new Brique(600, 100));
             briques.add(new Brique(100, 100));
             briques.add(new Brique(400, 100));
+        }
+        if(lvl == 2){
+            briques.add(new Brique(600, 100, 1));
+            briques.add(new Brique(100, 100, 1));
+            briques.add(new Brique(400, 100, 1));
+            briques.add(new Brique(200, 300));
+            briques.add(new Brique(400, 300));
         }
     }
 
@@ -161,8 +174,8 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
 
     public void drawBriques(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(Color.rgb(250, 0, 0));
         for(Brique b:briques) {
+            paint.setColor(Color.rgb(250-250*b.getVie(), 0, 0));
             canvas.drawRect(b.getX()-50, b.getY()-50,b.getX()+50,b.getY()+50,paint);
         }
     }
@@ -184,5 +197,17 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
             }
             retry = false;
         }
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        for (Brique b:briques) {
+            if(motionEvent.getY() <= b.getY()+50 && motionEvent.getY()>= b.getY()-50 && motionEvent.getX() <= b.getX()+50 && motionEvent.getX()>= b.getX()-50){
+                if(b.getVie()!=0){
+                    b.hit();
+                }
+            }
+        }
+        return true;
     }
 }
