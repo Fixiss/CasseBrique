@@ -27,6 +27,7 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
     private int position_balle_x;
     private int position_balle_y;
     private int temps = 100;
+    private int blue = 250;
     private NiveauxActivity niv;
     private boolean running = true;
     private String direction_balle = "BasDroite";
@@ -129,6 +130,7 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
                 this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this,sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_GAME);
         choixBriques(lvl);
         mHandler = new Handler();
         mHandlerTimer = new Handler();
@@ -165,12 +167,20 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        position_barre = (int) (position_barre-(sensorEvent.values[0]*2));
-        if(position_barre < 0){
-            position_barre=0;
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_LIGHT) {
+            blue = 250 - (int) sensorEvent.values[0];
+            if(blue <= 0){
+                blue = 0;
+            }
         }
-        if(position_barre > display.widthPixels){
-            position_barre=display.widthPixels;
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+            position_barre = (int) (position_barre - (sensorEvent.values[0] * 2));
+            if (position_barre < 0) {
+                position_barre = 0;
+            }
+            if (position_barre > display.widthPixels) {
+                position_barre = display.widthPixels;
+            }
         }
     }
 
@@ -196,7 +206,7 @@ public class Niveaux extends SurfaceView implements SensorEventListener, Surface
     }
     public void drawBarre(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(Color.rgb(0, 0, 250));
+        paint.setColor(Color.rgb(0, 0, blue));
         canvas.drawRect(position_barre - 70, display.heightPixels - 180, position_barre + 70, display.heightPixels - 150, paint);
     }
 

@@ -33,10 +33,4 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ClassementActivity.class);
         startActivity(intent);
     }
-
-    public void OnClickLuminositeButton(View v) {
-        mediaPlayer.pause();
-        Intent intent = new Intent(this, LuminositeActivity.class);
-        startActivity(intent);
-    }
 }
